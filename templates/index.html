@@ -4,6 +4,8 @@
 	<title>Disappearing ninja</title>
 </head>
 <body>
-	<img src="{{color}}">	
+	{% for element in contents %}
+		<img src = "../static/Ninjas/{{contents[element]}}"}>
+	{% endfor %}	
 </body>
 </html>

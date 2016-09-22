@@ -1,6 +1,6 @@
-from flask import Flask,render_template,request,redirect,session,flash
+from flask import Flask,render_template,request,redirect,url_for
 app = Flask(__name__)
-app.secret_key = 'secret'
+colors = {'red':'raphael.jpg', 'orange':'michelangelo.jpg', 'blue':'leonardo.jpg', 'purple':'donatello.jpg', 'april': 'notapril.jpg'}
 
 @app.route('/')
 def index():
@@ -8,20 +8,19 @@ def index():
 
 @app.route('/ninja')
 def ninjas():
-	return render_template("ninja.html")
+	data = colors
+	data.pop('april')
+	contents = colors
+	return render_template("ninja.html",contents = data)
 
 @app.route('/ninja/<color>')
 def color(color):
-	print color
-	if( color == 'blue'):
-		return render_template("index.html",color='/static/Ninjas/leonardo.jpg')
-	elif( color == 'orange'):
-		return render_template("index.html",color='/static/Ninjas/michelangelo.jpg')
-	elif( color == 'red'):
-		return render_template("index.html",color='/static/Ninjas/raphael.jpg')
-	elif( color == 'purple'):
-		return render_template("index.html",color='/static/Ninjas/donatello.jpg')	
+	data = {}
+	if color == 'red' or color == 'blue' or color == 'purple' or color == 'orange':
+		data[color] = colors[color]
 	else:
-		return render_template("index.html",color='/static/Ninjas/notapril.jpg')
+		data['april'] = colors['april']
+	return render_template("index.html",contents = data)
 
-app.run(debug=True)	
+if __name__ == "__main__":
+	app.run(debug=True)	
